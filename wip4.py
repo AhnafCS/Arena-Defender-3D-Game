@@ -37,7 +37,8 @@ player = {
     "speed": 1.0,
     "size": 1.0,
     "angle": 180,
-    "health": 100
+    "health": 100,
+    "weapon": None
 }
 # ---------- OpenGL Init ----------
 def init_gl():
@@ -144,7 +145,8 @@ def draw_walls():
     t = room["wall_thick"]
 
     # Define gradient colors for walls (bottom, top)
-    bottom_color = (0, 0.078, 0.31)
+    # bottom_color = (0, 0.078, 0.31)
+    bottom_color = (0, 0.0, 0)
     top_color = (0.3, 0.4, 0.8)
 
     def draw_wall(x, y, z, sx, sy, sz):
@@ -465,10 +467,12 @@ def draw_spider(x, z, size):
     glPushMatrix()
     glTranslatef(x, y, z)
     # Body
-    glColor3f(0.349, 0.157, 0.106)
+    # glColor3f(0.349, 0.157, 0.106)
+    glColor3f(0,0,0)
     glutSolidSphere(size, 16, 16)
     # Head
-    glColor3f(0.749, 0.561, 0.514)
+    # glColor3f(0.749, 0.561, 0.514)
+    glColor3f(0.3,0.3,0.3)
     glPushMatrix()
     glTranslatef(0, 0.6*size, size*0.6)
     glutSolidSphere(size*0.6, 12, 12)
@@ -556,7 +560,7 @@ def idle():
     glutPostRedisplay()
 # ---------- Input ----------
 def keyboard(key, x, y):
-    global player, game_over
+    global player, game_over, shooting_mode
 
     if key == b'r' and (game_over or game_won):  # R key to reset after death
         reset_game()
@@ -583,8 +587,9 @@ def keyboard(key, x, y):
         player["x"] += math.cos(rad) * step
         player["z"] -= math.sin(rad) * step
     elif key == b' ':
-        shoot()
-        fired = True
+        if player["weapon"] is not None:  # only shoot if weapon picked up
+            shooting_mode = player["weapon"]  # ensure correct mode
+            shoot()
 
     clamp_player()
     check_weapon_pickup()
@@ -659,6 +664,7 @@ def check_weapon_pickup():
         dx = player["x"] - w["x"]
         dz = player["z"] - w["z"]
         if dx*dx + dz*dz < 2.0**2:  # within 2 units
+            player["weapon"] = w["type"]
             shooting_mode = w["type"]
             print(f"Picked up weapon {shooting_mode}!")
             weapon_pickups.remove(w)
