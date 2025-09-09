@@ -210,7 +210,7 @@ def spawn_key():
     global key_pos
     room = rooms[current_room_index]
     half = room["size"] - 5
-    corners = [(-half, -half), (half, -half), (-half, half)]
+    corners = [(-half, -half), (-half, half)]
     key_pos = random.choice(corners)
 
 def update_enemies():
