@@ -605,7 +605,7 @@ def reset_game():
     player["z"] = 0
     player["angle"] = 180
     player["health"] = 100
-
+    player["weapon"] = None
     current_room_index = 0
     game_over = False
     game_won = False
