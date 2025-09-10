@@ -346,12 +346,10 @@ def draw_key(x, z):
 def draw_weapon_pickups():
     for w in weapon_pickups:
         glPushMatrix()
-        # Elevate above floor
-        glTranslatef(w["x"], 1.2, w["z"])  # y=1.2 units above floor
-        # Scale larger for visibility
+        glTranslatef(w["x"], 1.2, w["z"]) 
         glScalef(2.0, 2.0, 2.0)  
 
-        # Draw different shapes for each weapon type
+        
         if w["type"] == 1:
             glColor3f(1.0, 1.0, 0.0)  # yellow pistol
 
@@ -408,7 +406,7 @@ def draw_enemies():
             draw_cube_bot(e["x"], e["z"], e["size"])
         elif e["type"] == "spider":
             draw_spider(e["x"], e["z"], e["size"])
-# ---------- Enemy Drawing Functions ----------
+#Enemy Drawing Functions
 def draw_rolling_ball(x, z, size):
     glPushMatrix()
     glTranslatef(x, size/2.5, z)
@@ -530,7 +528,7 @@ def load_room(index):
     spawn_enemies()
     spawn_key()
     spawn_weapon_pickups()
-# ---------- Display & Camera ----------
+
 def display():
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     glLoadIdentity()
@@ -558,7 +556,6 @@ def display():
     glutSwapBuffers()
 def idle():
     glutPostRedisplay()
-# ---------- Input ----------
 def keyboard(key, x, y):
     global player, game_over, shooting_mode
 
@@ -616,7 +613,6 @@ def reset_game():
     load_room(0)
 
 def draw_text():
-    # Switch to 2D orthographic projection
     glMatrixMode(GL_PROJECTION)
     glPushMatrix()
     glLoadIdentity()
@@ -642,7 +638,6 @@ def draw_text():
         for ch in message:
             glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, ord(ch))
 
-    # Restore matrices
     glPopMatrix()
     glMatrixMode(GL_PROJECTION)
     glPopMatrix()
@@ -681,7 +676,7 @@ def special_keys(key, x, y):
     elif key == GLUT_KEY_DOWN:
         camera["pitch"] = max(camera["pitch"] - 2.0, -10.0)
     glutPostRedisplay()
-# ---------- Main ----------
+# --
 def main():
     glutInit([])
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH)
